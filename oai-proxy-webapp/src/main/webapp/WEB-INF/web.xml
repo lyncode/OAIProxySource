@@ -1,0 +1,57 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>Lyncode OAI Proxy</display-name>
+
+	<context-param>
+		<param-name>config</param-name>
+		<param-value>${proxy.deploy.dir}/config/proxy.cfg</param-value>
+	</context-param>
+
+	
+	<servlet>
+		<servlet-name>dataProvider</servlet-name>
+		<servlet-class>com.lyncode.oai.proxy.ProxyDataProvider</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>add</servlet-name>
+		<servlet-class>com.lyncode.oai.proxy.servlet.AddRepositoryServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>add</servlet-name>
+		<url-pattern>/admin_add_final</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>dataProvider</servlet-name>
+		<url-pattern>/oai/*</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<security-constraint>
+		<display-name>excluded</display-name>
+		<web-resource-collection>
+			<web-resource-name>No Access</web-resource-name>
+			<url-pattern>/admin/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ProxyAdmin</role-name>
+		</auth-constraint>
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>default</realm-name>
+	</login-config>
+</web-app>

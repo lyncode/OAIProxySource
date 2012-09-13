@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.lyncode.com/Repository/" targetNamespace="http://www.lyncode.com/Repository/">
+    <element name="Repository">
+    	<complexType>
+    		<sequence>
+    			<element name="URL" type="string"></element>
+    			<element name="Set" type="string"></element>
+    			<element name="Name" type="string"></element>
+    			<element name="Active" type="boolean"></element>
+    			<element name="LastHarvest" type="string"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+</schema>

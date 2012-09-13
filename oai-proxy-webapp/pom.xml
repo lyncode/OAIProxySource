@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.lyncode</groupId>
+    <artifactId>oai-proxy</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  
+  <artifactId>oai-proxy-webapp</artifactId>
+  <packaging>war</packaging>
+  
+  <name>OAI Proxy Webapp</name>
+  <url>http://www.lyncode.com</url>
+  
+  
+  <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<archiveClasses>false</archiveClasses>
+					<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+					<warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+	
+  <dependencies>
+  	<dependency>
+  		<groupId>com.lyncode</groupId>
+  		<artifactId>oai-proxy-api</artifactId>
+  		<version>1.0.0</version>
+  	</dependency>
+  </dependencies>
+</project>
