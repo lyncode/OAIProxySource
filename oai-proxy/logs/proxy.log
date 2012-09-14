@@ -1,4 +1,0 @@
-2012-09-14 15:16:08,857 INFO  com.lyncode.oai.proxy.core.SolrServerManager - Solr Server initialized
-2012-09-14 15:16:08,925 INFO  com.lyncode.oai.proxy.ProxyApplication - Harvest scheduled for Fri Sep 14 23:19:00 WEST 2012
-2012-09-14 15:16:08,930 INFO  com.lyncode.oai.proxy.ProxyApplication - Scheduler started
-2012-09-14 15:16:12,747 INFO  com.lyncode.oai.proxy.ProxyApplication - Web server started
