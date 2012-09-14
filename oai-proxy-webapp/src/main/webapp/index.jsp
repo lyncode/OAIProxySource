@@ -19,19 +19,26 @@
 		</div>
 
 		<div class="center_content">
-
+			<div style="text-align: center; padding: 20px;">
+			<span style="display: block;
+			    font-size: 15px;
+			    border: solid 1px #CCC;
+			    background-color: rgba(111,111,111,0.1);
+			    padding: 20px;
+			    font-weight: bold;">
+			    <%=request.getRequestURL().toString().replaceFirst(request.getRequestURI(),"")%>/oai/request</span>
+			</div>
 			<div class="center_left">
 				<div class="welcome_box">
-					<p class="welcome">
-						<span class="orange">OAI Proxy 1.0</span><br /> OAI Proxy allows
-						you to easily proxy multiple OAI interfaces throw an unique
-						interface. Using <a href="http://www.github.com/lyncode/xoai">XOAI</a>
-						underneath, OAI Proxy provides a powerful service. Define your
-						custom sets, your custom filters, your custom interfaces with a
-						standalone and easy to install tool.<br />
-						<br /> Developed by <a href="http://www.lyncode.com">Lyncode</a>.
-					</p>
-				</div>
+                                        <p class="welcome">
+                                                <span class="orange">OAI Proxy URL</span><br /> 
+                                                <span style="display: block; text-align: center; font-size: 15px;font-weight: bold; padding-top: 40px; padding-bottom: 40px;">
+                                                	<%=request.getRequestURL().toString().replaceFirst(request.getRequestURI(),"")%>/oai/request
+                                                </span>
+                                                Developed by <a href="http://www.lyncode.com">Lyncode</a>.
+                                        </p>
+                                </div>
+
 
 
 			</div>
