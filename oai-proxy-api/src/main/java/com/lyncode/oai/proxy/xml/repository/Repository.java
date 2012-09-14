@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.lyncode.oai.proxy.core.RepositoryManager;
 import com.lyncode.xoai.dataprovider.util.Base64Utils;
 
 
@@ -181,6 +182,10 @@ public class Repository implements Comparable<Repository> {
 	@Override
 	public int compareTo(Repository o) {
 		return this.getID().compareTo(o.getID());
+	}
+	
+	public long getCount () {
+		return RepositoryManager.harvestItems(this);
 	}
 
 }

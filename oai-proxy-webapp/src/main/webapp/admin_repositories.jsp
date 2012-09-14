@@ -6,6 +6,9 @@
 
 <%
 
+boolean error = false;
+String message = "";
+
 String op = request.getParameter("op");
 String id = request.getParameter("id");
 if (op != null && id != null) {
@@ -73,6 +76,13 @@ List<Repository> rep = RepositoryManager.getRepositories();
     <div class="center_content">
 		
 		<div class="add_repository">
+		
+		<% if (error) { %>
+		<div class="error">
+			<%=message %>
+		</div>
+		<% } %>
+		
 		<form method="post" action="/admin_add.jsp">
 			<div class="field">
 				<div>

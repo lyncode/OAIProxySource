@@ -317,3 +317,10 @@ div.checkbox {
 	font-size: 20px;
 	padding: 10px;
 }
+
+div.error {
+	border: solid 1px red;
+	margin: 10px 30px;
+	background-color: rgba(255, 80, 80, 0.2);
+	padding: 10px 20px;
+}

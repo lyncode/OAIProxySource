@@ -21,9 +21,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<archiveClasses>false</archiveClasses>
-					<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-					<warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
+					<warSourceDirectory>WebContent</warSourceDirectory>
 				</configuration>
 				<executions>
 					<execution>
@@ -40,6 +38,11 @@
   		<groupId>com.lyncode</groupId>
   		<artifactId>oai-proxy-api</artifactId>
   		<version>1.0.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.servlet</groupId>
+  		<artifactId>javax.servlet-api</artifactId>
+  		<version>3.0.1</version>
   	</dependency>
   </dependencies>
 </project>

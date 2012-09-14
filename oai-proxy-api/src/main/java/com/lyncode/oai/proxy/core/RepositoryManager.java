@@ -14,7 +14,11 @@ import java.util.TreeMap;
 import org.apache.commons.configuration.Configuration;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.util.ClientUtils;
 
+import com.lyncode.oai.proxy.data.ProxyItem;
 import com.lyncode.oai.proxy.util.XMLBindUtils;
 import com.lyncode.oai.proxy.xml.repository.Repository;
 import com.lyncode.xoai.dataprovider.exceptions.MarshallingException;
@@ -86,6 +90,14 @@ public class RepositoryManager {
 	}
 	
 	public static void delete (Repository r) {
+		try {
+			SolrServerManager.getServer().deleteByQuery(ProxyItem.REPOSITORY_ID + ":" + ClientUtils.escapeQueryChars(r.getID()));
+			SolrServerManager.getServer().commit();
+		} catch (SolrServerException e) {
+			log.debug(e.getMessage(), e);
+		} catch (IOException e) {
+			log.debug(e.getMessage(), e);
+		}
 		File f = new File(map.get(r));
 		f.delete();
 		map.remove(r);
@@ -93,7 +105,12 @@ public class RepositoryManager {
 	}
 	
 	public static long harvestItems (Repository r) {
-		return 0; // TODO: Implementar
+		try {
+			return SolrServerManager.getServer().query(new SolrQuery(ProxyItem.REPOSITORY_ID + ":" + ClientUtils.escapeQueryChars(r.getID()))).getResults().getNumFound();
+		} catch (SolrServerException e) {
+			log.debug(e.getMessage(), e);
+			return 0;
+		}
 	}
 	
 	public static Repository getByID (String id) {
