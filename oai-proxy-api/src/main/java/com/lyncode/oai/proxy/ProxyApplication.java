@@ -85,7 +85,6 @@ public class ProxyApplication {
 		
 		WebAppContext webapp = new WebAppContext();
 		webapp.setContextPath("/");
-		webapp.setSecurityHandler(security(config.getString("admin.user"), config.getString("admin.pass")));
 		webapp.setWar("webapps" + File.separator + "proxy.war");
 		webapp.setParentLoaderPriority(true);
         
@@ -94,28 +93,5 @@ public class ProxyApplication {
         server.start();
 		log.info("Web server started");
         server.join();
-	}
-	
-	private static SecurityHandler security (String username, String password) {
-		HashLoginService l = new HashLoginService();
-        l.putUser(username, Credential.getCredential(password), new String[] { ROLE });
-        l.setName(REALM);
-        
-        Constraint constraint = new Constraint();
-        constraint.setName(Constraint.__BASIC_AUTH);
-        constraint.setRoles(new String[]{ ROLE });
-        constraint.setAuthenticate(true);
-         
-        ConstraintMapping cm = new ConstraintMapping();
-        cm.setConstraint(constraint);
-        cm.setPathSpec("/admin*");
-        
-        ConstraintSecurityHandler csh = new ConstraintSecurityHandler();
-        csh.setAuthenticator(new BasicAuthenticator());
-        csh.setRealmName("Admin credentials could be found at config/proxy.cfg");
-        csh.addConstraintMapping(cm);
-        csh.setLoginService(l);
-        
-        return csh;
 	}
 }

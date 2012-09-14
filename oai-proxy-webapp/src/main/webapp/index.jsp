@@ -14,7 +14,7 @@
 		<div class="menu">
 			<ul>
 				<li class="selected"><a href="/">OAI Proxy</a></li>
-				<li><a href="/admin_repositories.jsp">Admin</a></li>
+				<li><a href="/admin_repositories.go">Repositories</a></li>
 			</ul>
 		</div>
 
@@ -26,7 +26,7 @@
 						<span class="orange">OAI Proxy 1.0</span><br /> OAI Proxy allows
 						you to easily proxy multiple OAI interfaces throw an unique
 						interface. Using <a href="http://www.github.com/lyncode/xoai">XOAI</a>
-						underneed, OAI Proxy provides a powerfull service. Define your
+						underneath, OAI Proxy provides a powerful service. Define your
 						custom sets, your custom filters, your custom interfaces with a
 						standalone and easy to install tool.<br />
 						<br /> Developed by <a href="http://www.lyncode.com">Lyncode</a>.

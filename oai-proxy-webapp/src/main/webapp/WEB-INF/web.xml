@@ -1,57 +1,44 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>OAI Proxy</display-name>
 
-<web-app>
-	<display-name>Lyncode OAI Proxy</display-name>
-
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
 	<context-param>
-		<param-name>config</param-name>
-		<param-value>${proxy.deploy.dir}/config/proxy.cfg</param-value>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/ProxyDispatcherServlet-servlet.xml,
+			/WEB-INF/spring-security.xml
+		</param-value>
 	</context-param>
 
-	
 	<servlet>
-		<servlet-name>dataProvider</servlet-name>
-		<servlet-class>com.lyncode.oai.proxy.ProxyDataProvider</servlet-class>
+		<servlet-name>ProxyDispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	
-	<servlet>
-		<servlet-name>add</servlet-name>
-		<servlet-class>com.lyncode.oai.proxy.servlet.AddRepositoryServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>add</servlet-name>
-		<url-pattern>/admin_add_final</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>dataProvider</servlet-name>
-		<url-pattern>/oai/*</url-pattern>
+		<servlet-name>ProxyDispatcherServlet</servlet-name>
+		<url-pattern>*.go</url-pattern>
 	</servlet-mapping>
 	
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+ 
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	
-	<security-constraint>
-		<display-name>excluded</display-name>
-		<web-resource-collection>
-			<web-resource-name>No Access</web-resource-name>
-			<url-pattern>/admin/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>ProxyAdmin</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-	
-	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>default</realm-name>
-	</login-config>
 </web-app>

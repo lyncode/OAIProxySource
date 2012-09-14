@@ -111,6 +111,10 @@ color:#fff;
 line-height:42px;
 font-size:14px;
 }
+.menu ul.right {
+	float: right;
+	margin-right: 10px;
+}
 .menu ul li.selected a{
 float:left;
 height:42px;
@@ -323,4 +327,17 @@ div.error {
 	margin: 10px 30px;
 	background-color: rgba(255, 80, 80, 0.2);
 	padding: 10px 20px;
+}
+
+div.login h1 {
+	text-align: center;
+}
+
+div.login table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.login table tr td.button {
+	text-align: right;	
 }
