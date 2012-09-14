@@ -70,7 +70,7 @@ public class ProxyApplication {
 		Trigger trigger = newTrigger()
 				.withIdentity("harvestTrigger", "proxy")
 				.withSchedule(simpleSchedule()
-						.withIntervalInHours(24)
+						.withIntervalInHours(24 * config.getInt("schedule.interval", 1))
 						.repeatForever())
 				.startAt(c.getTime())
 				.build();
