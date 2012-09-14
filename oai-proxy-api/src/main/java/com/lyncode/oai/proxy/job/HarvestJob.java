@@ -23,7 +23,7 @@ import com.lyncode.xoai.dataprovider.exceptions.MarshallingException;
  *
  */
 public class HarvestJob implements Job {
-	private static Boolean isRunning;
+	private static Boolean isRunning = new Boolean(false);
 	
 	private static boolean isRunning () {
 		synchronized (isRunning) {
