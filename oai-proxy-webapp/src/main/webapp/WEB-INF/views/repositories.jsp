@@ -78,6 +78,8 @@
                         	<label style="font-weight: bold; margin-right: 10px;">Next Harvest</label>
                         	<span>${next}</span>
                         </div>
+                        
+                        <div style="clear: both;"></div>
 
                         <c:if test="${empty repositories}">
                         <div style="padding: 30px;">No repositories</div>
