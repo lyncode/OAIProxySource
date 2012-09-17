@@ -55,15 +55,7 @@ public class ProxyDataProvider extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
-		try {
-			ConfigurationManager.initialize(ProxyApplication.CONFIG_FILE);
-			PropertyConfigurator.configure("config" + File.separator + "log4j.properties");
-			
-			log.info("OAI Proxy Initialized");
-		} catch (ConfigurationException e) {
-			System.out.println("Error reading configuration");
-			log.error(e.getMessage(), e);
-		}
+		log.info("OAI Proxy Initialized");
 	}
 
 

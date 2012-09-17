@@ -1,7 +1,6 @@
 package com.lyncode.oai.proxy.web.controller;
 
 import java.io.IOException;
-import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lyncode.oai.proxy.ProxyApplication;
 import com.lyncode.oai.proxy.core.ConfigurationManager;
 import com.lyncode.oai.proxy.core.RepositoryManager;
 import com.lyncode.oai.proxy.xml.repository.Repository;
@@ -26,17 +26,7 @@ public class RepositoryController {
 	private static Logger log = LogManager.getLogger(RepositoryController.class);
 	
 	private String nextRun () {
-		org.apache.commons.configuration.Configuration config = ConfigurationManager.getConfiguration();
-		
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.HOUR_OF_DAY, config.getInt("schedule.hour", 0));
-		c.set(Calendar.MINUTE, config.getInt("schedule.minute", 0));
-		c.set(Calendar.SECOND, 0);
-		
-		if (c.before(Calendar.getInstance())) {
-			c.add(Calendar.DAY_OF_MONTH, 1);
-		}
-		return c.getTime().toString();
+		return ProxyApplication.getTrigger().getNextFireTime().toString();
 	}
 	
 	@RequestMapping("/admin_repositories.go")

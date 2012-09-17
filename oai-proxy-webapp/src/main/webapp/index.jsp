@@ -19,15 +19,6 @@
 		</div>
 
 		<div class="center_content">
-			<div style="text-align: center; padding: 20px;">
-			<span style="display: block;
-			    font-size: 15px;
-			    border: solid 1px #CCC;
-			    background-color: rgba(111,111,111,0.1);
-			    padding: 20px;
-			    font-weight: bold;">
-			    <%=request.getRequestURL().toString().replaceFirst(request.getRequestURI(),"")%>/oai/request</span>
-			</div>
 			<div class="center_left">
 				<div class="welcome_box">
                                         <p class="welcome">

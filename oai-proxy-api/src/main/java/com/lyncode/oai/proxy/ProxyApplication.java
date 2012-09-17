@@ -11,14 +11,7 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.eclipse.jetty.security.ConstraintMapping;
-import org.eclipse.jetty.security.ConstraintSecurityHandler;
-import org.eclipse.jetty.security.HashLoginService;
-import org.eclipse.jetty.security.SecurityHandler;
-import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.util.security.Constraint;
-import org.eclipse.jetty.util.security.Credential;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -33,9 +26,12 @@ import com.lyncode.oai.proxy.job.HarvestJob;
 
 public class ProxyApplication {
 	private static Logger log = LogManager.getLogger(ProxyApplication.class);
-	private static final String ROLE = "admin";
-	private static final String REALM = "proxyRealm";
 	public static final String CONFIG_FILE = "config"+File.separator+"proxy.cfg";
+	private static Trigger trigger;
+	
+	public static Trigger getTrigger () {
+		return trigger;
+	}
 	
 	public static void main (String[] args) throws Exception {
 		ConfigurationManager.initialize(CONFIG_FILE);
@@ -67,7 +63,7 @@ public class ProxyApplication {
 		
 		log.info("Harvest scheduled for "+c.getTime());
 		
-		Trigger trigger = newTrigger()
+		trigger = newTrigger()
 				.withIdentity("harvestTrigger", "proxy")
 				.withSchedule(simpleSchedule()
 						.withIntervalInHours(24 * config.getInt("schedule.interval", 1))

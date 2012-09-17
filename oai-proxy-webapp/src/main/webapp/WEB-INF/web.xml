@@ -22,7 +22,24 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>ProxyDataProvider</servlet-name>
+		<servlet-class>com.lyncode.oai.proxy.ProxyDataProvider</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>ProxyDispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
+	<servlet-mapping>
+		<servlet-name>ProxyDataProvider</servlet-name>
+		<url-pattern>/oai/*</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>ProxyDispatcherServlet</servlet-name>
 		<url-pattern>*.go</url-pattern>
