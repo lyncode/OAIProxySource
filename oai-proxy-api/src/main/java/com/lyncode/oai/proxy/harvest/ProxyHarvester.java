@@ -28,6 +28,7 @@ import com.lyncode.xoai.serviceprovider.configuration.Configuration;
 import com.lyncode.xoai.serviceprovider.data.Record;
 import com.lyncode.xoai.serviceprovider.exceptions.BadResumptionTokenException;
 import com.lyncode.xoai.serviceprovider.exceptions.CannotDisseminateFormatException;
+import com.lyncode.xoai.serviceprovider.exceptions.InternalHarvestException;
 import com.lyncode.xoai.serviceprovider.exceptions.NoRecordsMatchException;
 import com.lyncode.xoai.serviceprovider.exceptions.NoSetHierarchyException;
 import com.lyncode.xoai.serviceprovider.iterators.RecordIterator;
@@ -44,7 +45,7 @@ public class ProxyHarvester {
 		this.repository = repository;
 	}
 	
-	public void harvest () {
+	public void harvest () throws CannotDisseminateFormatException, NoSetHierarchyException, InternalHarvestException {
 		Configuration config = new Configuration();
 		config.setResumptionInterval(ConfigurationManager.getConfiguration().getInt("oai.proxy.interval"));
 		HarvesterManager manager = new HarvesterManager(config, repository.getURL());
@@ -115,10 +116,6 @@ public class ProxyHarvester {
 		} catch (NoRecordsMatchException e) {
 			log.debug(e.getMessage(), e);
 		} catch (BadResumptionTokenException e) {
-			log.debug(e.getMessage(), e);
-		} catch (CannotDisseminateFormatException e) {
-			log.debug(e.getMessage(), e);
-		} catch (NoSetHierarchyException e) {
 			log.debug(e.getMessage(), e);
 		}
 	}
