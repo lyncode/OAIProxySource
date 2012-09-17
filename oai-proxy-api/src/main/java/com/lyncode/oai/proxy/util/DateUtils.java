@@ -46,7 +46,7 @@ public class DateUtils
         return ret;
     }
 
-    public static Date parseDate(String date)
+    public static Date parseDate(String date) throws ParseException
     {
         // 2008-01-01T00:00:00Z
         SimpleDateFormat format = new SimpleDateFormat(
@@ -97,7 +97,7 @@ public class DateUtils
                 }
             }
         }
-        return new Date();
+        throw new ParseException("Unable to parse date from value '"+date+"'", 0);
     }
 
     public static Date parseFromSolrDate(String date)

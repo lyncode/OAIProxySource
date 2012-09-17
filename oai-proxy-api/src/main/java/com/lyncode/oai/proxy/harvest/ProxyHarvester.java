@@ -1,6 +1,7 @@
 package com.lyncode.oai.proxy.harvest;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.xml.bind.JAXBElement;
@@ -51,6 +52,16 @@ public class ProxyHarvester {
 		ListRecords.ExtraParameters extra = b.new ExtraParameters();
 		if (repository.getSet() != null)
 			extra.setSet(repository.getSet());
+		
+		Date lastHarvest;
+		try {
+			lastHarvest = DateUtils.parseDate(repository.getLastHarvest());
+			extra.setFrom(lastHarvest);
+		} catch (ParseException e1) {
+			log.debug(e1.getMessage(), e1);
+		} 
+		
+		
 		RecordIterator iterator = manager.listRecords(METADATA_PREFIX, extra).iterator();
 		try {
 			while (iterator.hasNext()) {
@@ -95,6 +106,8 @@ public class ProxyHarvester {
 				} catch (IOException e) {
 					log.debug(e.getMessage(), e);
 				} catch (MarshallingException e) {
+					log.debug(e.getMessage(), e);
+				} catch (ParseException e) {
 					log.debug(e.getMessage(), e);
 				}
 				
