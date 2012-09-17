@@ -123,7 +123,7 @@ public class RepositoryController {
 	}
 	
 
-	@RequestMapping("/run_harvest.go")
+	@RequestMapping("/admin_run_harvest.go")
 	public ModelAndView runHarvest (HttpServletRequest request) {
 		Thread th = new Thread(new Runnable() {
 			@Override
