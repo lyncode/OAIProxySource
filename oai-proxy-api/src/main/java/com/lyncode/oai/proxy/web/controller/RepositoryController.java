@@ -88,6 +88,34 @@ public class RepositoryController {
 		return mv;
 	}
 
+	@RequestMapping("/admin_repositories_reset.go")
+	public ModelAndView resetRepository (HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("repositories");
+		mv.addObject("error", false);
+		
+		String id = request.getParameter("id");
+		if (id != null) {
+			Repository r = RepositoryManager.getByID(id);
+			try {
+				RepositoryManager.delete(r);
+				r.setLastHarvest("None");
+				RepositoryManager.create(r);
+			} catch (IOException e) {
+				log.debug(e.getMessage(), e);
+				mv.addObject("error", true);
+				mv.addObject("message", "Unable to update repository");
+			} catch (MarshallingException e) {
+				log.debug(e.getMessage(), e);
+				mv.addObject("error", true);
+				mv.addObject("message", "Unable to update repository");
+			}
+		}
+		mv.addObject("next", nextRun());
+		mv.addObject("repositories", RepositoryManager.getRepositories());
+		
+		return mv;
+	}
+	
 	@RequestMapping("/admin_repositories_del.go")
 	public ModelAndView deleteRepository (HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("repositories");

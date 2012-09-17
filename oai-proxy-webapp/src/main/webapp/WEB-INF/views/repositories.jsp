@@ -108,6 +108,7 @@
                                                 <c:if test="${rep.active}">
                                                 <a href="/admin_repositories_deactivate.go?id=${rep.ID}">Deactivate</a>
                                                 </c:if>
+                                                <a href="/admin_repositories_reset.go?id=${rep.ID}">Reset</a>
                                                 <a href="/admin_repositories_del.go?id=${rep.ID}">Delete</a>
                                         </div>
                                 </li>
