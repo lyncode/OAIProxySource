@@ -28,13 +28,13 @@ import com.lyncode.xoai.serviceprovider.exceptions.NoSetHierarchyException;
 public class HarvestJob implements Job {
 	private static Boolean isRunning = new Boolean(false);
 	
-	private static boolean isRunning () {
+	public static boolean isRunning () {
 		synchronized (isRunning) {
 			return isRunning.booleanValue();
 		}
 	}
 	
-	private static void setRunning (boolean b) {
+	public static void setRunning (boolean b) {
 		synchronized (isRunning) {
 			isRunning = new Boolean(b);
 		}

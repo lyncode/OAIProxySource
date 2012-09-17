@@ -1,6 +1,7 @@
 package com.lyncode.oai.proxy.web.controller;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,12 +14,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.lyncode.oai.proxy.ProxyApplication;
 import com.lyncode.oai.proxy.core.ConfigurationManager;
 import com.lyncode.oai.proxy.core.RepositoryManager;
+import com.lyncode.oai.proxy.harvest.ProxyHarvester;
+import com.lyncode.oai.proxy.job.HarvestJob;
+import com.lyncode.oai.proxy.util.DateUtils;
 import com.lyncode.oai.proxy.xml.repository.Repository;
 import com.lyncode.xoai.dataprovider.exceptions.MarshallingException;
 import com.lyncode.xoai.serviceprovider.HarvesterManager;
 import com.lyncode.xoai.serviceprovider.configuration.Configuration;
 import com.lyncode.xoai.serviceprovider.exceptions.BadArgumentException;
+import com.lyncode.xoai.serviceprovider.exceptions.CannotDisseminateFormatException;
 import com.lyncode.xoai.serviceprovider.exceptions.InternalHarvestException;
+import com.lyncode.xoai.serviceprovider.exceptions.NoSetHierarchyException;
 import com.lyncode.xoai.serviceprovider.verbs.Identify;
 
 @Controller
@@ -114,6 +120,49 @@ public class RepositoryController {
 		mv.addObject("repositories", RepositoryManager.getRepositories());
 		
 		return mv;
+	}
+	
+
+	@RequestMapping("/run_harvest.go")
+	public ModelAndView runHarvest (HttpServletRequest request) {
+		Thread th = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				log.info("Aggregation started");
+				if (!HarvestJob.isRunning()) {
+					HarvestJob.setRunning(true);
+					for (Repository r : RepositoryManager.getRepositories()) {
+						if (r.isActive()) {
+							ProxyHarvester h = new ProxyHarvester(r);
+							try {
+								h.harvest();
+								r.setLastHarvest(DateUtils.formatToSolr(new Date()));
+							} catch (CannotDisseminateFormatException e1) {
+								r.setLastHarvest("Error: "+e1.getMessage());
+								log.debug(e1.getMessage(), e1);
+							} catch (NoSetHierarchyException e1) {
+								r.setLastHarvest("Error: "+e1.getMessage());
+								log.debug(e1.getMessage(), e1);
+							} catch (InternalHarvestException e1) {
+								r.setLastHarvest("Error: "+e1.getMessage());
+								log.debug(e1.getMessage(), e1);
+							}
+							try {
+								RepositoryManager.save(r);
+							} catch (MarshallingException e) {
+								log.error(e.getMessage(), e);
+							} catch (IOException e) {
+								log.error(e.getMessage(), e);
+							}
+						}
+					}
+					HarvestJob.setRunning(false);
+				} else log.info("Another aggregation is running");
+				log.info("Aggregation ended");
+			}
+		});
+		th.start();
+		return new ModelAndView("harvest");
 	}
 	
 	@RequestMapping("/admin_repositories_del.go")

@@ -77,6 +77,7 @@
                         <div style="float: right;padding: 25px 30px;">
                         	<label style="font-weight: bold; margin-right: 10px;">Next Harvest</label>
                         	<span>${next}</span>
+                        	[<a href="/admin_run_harvest.go">Run Now</a>]
                         </div>
                         
                         <div style="clear: both;"></div>
