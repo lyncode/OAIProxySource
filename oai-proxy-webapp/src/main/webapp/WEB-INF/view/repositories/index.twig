@@ -1,0 +1,86 @@
+{% extends '../layout.twig' %}
+{% block content %}
+<script>
+	$(function() {
+		$('#baseurl').focusin(function() {
+			if ($(this).val() == "Base OAI URL") {
+				$(this).val("");
+				$(this).css('color', '#333333');
+			}
+		});
+		$('#baseurl').focusout(function() {
+			if ($(this).val() == "") {
+				$(this).val("Base OAI URL");
+				$(this).css('color', '#CCCCCC');
+			}
+		});
+		$("#submeter").button();
+	});
+</script>
+<div class="add_repository">
+	{% if error %}
+	<div class="error">
+		{{ message }}
+	</div>
+	{% endif %}
+	
+	{% if harvest %}
+	<div style="border: solid 1px rgb(52, 146, 20);background-color: rgba(52, 146, 20, 0.2);margin: 5px 30px;padding: 10px;">Harvester is running</div>
+	{% endif %}
+		
+	<form method="post" action="/admin_repositories_add.go">
+		<div class="field">
+			<div>
+				<input id="baseurl" class="nofocus" type="text" name="url" value="Base OAI URL" />
+			</div>
+			<div class="button">
+				<input type="submit" id="submeter" value="Add Repository" />
+			</div>
+		</div>
+	</form>
+
+	<div class="clear"></div>
+	<div class="separator"></div>
+	
+	<div class="list">
+		<h1 style="float: left;">Repositories</h1>
+		<div style="float: right;padding: 25px 30px;">
+			<label style="font-weight: bold; margin-right: 10px;">Next Harvest</label>
+			<span>{{ next }}</span>
+			[<a href="/admin_run_harvest.go">Run Now</a>]
+		</div>
+		
+		<div style="clear: both;"></div>
+		{% if repositories.empty %}
+		<div style="padding: 30px;">No repositories</div>
+		{% else %}
+	    <ul>
+	    	{% for rep in repositories %}
+	    	<li>
+	    		<div class="data">
+	    			<div class="name">{{ rep.name }}</div>
+	    			<div class="url"><label>URL</label><span>{{ rep.URL }}</span></div>
+	    			{% if not rep.set %}
+	                <div class="set"><label>Set chosen</label><span>None</span></div>
+	                {% else %}
+	                <div class="set"><label>Set chosen</label><span>{{ rep.set }}</span></div>
+	                {% endif %}
+					<div class="total"><label>Indexed Items</label><span>{{ rep.count }}</span></div>
+	                <div class="last"><label>Last Harvest</label><span>{{ rep.lastHarvest }}</span></div>
+				</div>
+				<div class="operations">
+					{% if not rep.active %}
+					<a href="/admin_repositories_activate.go?id={{ rep.ID }}">Activate</a>
+					{% else %}
+					<a href="/admin_repositories_deactivate.go?id={{ rep.ID }}">Deactivate</a>
+					{% endif %}
+					<a href="/admin_repositories_reset.go?id={{ rep.ID }}">Reset</a>
+					<a href="/admin_repositories_del.go?id={{ rep.ID }}">Delete</a>
+				</div>
+			</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

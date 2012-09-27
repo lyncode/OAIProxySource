@@ -37,11 +37,12 @@ public class RepositoryController {
 	
 	@RequestMapping("/admin_repositories.go")
 	public ModelAndView viewRepositories (HttpServletRequest request) {
-		
-		ModelAndView mv = new ModelAndView("repositories");
+		ModelAndView mv = new ModelAndView("repositories/index");
+		mv.addObject("isAdmin", true);
 		mv.addObject("error", false);
 		mv.addObject("next", nextRun());
 		mv.addObject("repositories", RepositoryManager.getRepositories());
+		mv.addObject("harvest", HarvestJob.isRunning());
 		return mv;
 	}
 	
@@ -58,33 +59,36 @@ public class RepositoryController {
 		try {
 			id = h.identify();
 			mv.addObject("error", false);
-			mv.setViewName("addstep1");
+			mv.setViewName("repositories/add");
 			mv.addObject("url", url);
 			mv.addObject("name", id.getRepositoryName());
 		} catch (BadArgumentException e) {
 			log.debug(e.getMessage(), e);
-			mv.setViewName("repositories");
+			mv.setViewName("repositories/index");
 			mv.addObject("error", true);
+			mv.addObject("harvest", HarvestJob.isRunning());
 			mv.addObject("message", "Unable to harvest repository");
 			mv.addObject("next", nextRun());
 			mv.addObject("repositories", RepositoryManager.getRepositories());
 		} catch (InternalHarvestException e) {
 			log.debug(e.getMessage(), e);
-			mv.setViewName("repositories");
+			mv.setViewName("repositories/index");
 			mv.addObject("error", true);
+			mv.addObject("harvest", HarvestJob.isRunning());
 			mv.addObject("message", "Unable to harvest repository");
 			mv.addObject("next", nextRun());
 			mv.addObject("repositories", RepositoryManager.getRepositories());
 		} catch (IllegalArgumentException e) {
 			log.debug(e.getMessage(), e);
-			mv.setViewName("repositories");
+			mv.setViewName("repositories/index");
 			mv.addObject("error", true);
+			mv.addObject("harvest", HarvestJob.isRunning());
 			mv.addObject("message", "Invalid URL");
 			mv.addObject("next", nextRun());
 			mv.addObject("repositories", RepositoryManager.getRepositories());
 		} catch (IllegalStateException e) {
 			log.debug(e.getMessage(), e);
-			mv.setViewName("repositories");
+			mv.setViewName("repositories/index");
 			mv.addObject("error", true);
 			mv.addObject("message", "Invalid URL");
 			mv.addObject("next", nextRun());
@@ -96,7 +100,7 @@ public class RepositoryController {
 
 	@RequestMapping("/admin_repositories_reset.go")
 	public ModelAndView resetRepository (HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("repositories");
+		ModelAndView mv = new ModelAndView("repositories/index");
 		mv.addObject("error", false);
 		
 		String id = request.getParameter("id");
@@ -116,6 +120,7 @@ public class RepositoryController {
 				mv.addObject("message", "Unable to update repository");
 			}
 		}
+		mv.addObject("harvest", HarvestJob.isRunning());
 		mv.addObject("next", nextRun());
 		mv.addObject("repositories", RepositoryManager.getRepositories());
 		
@@ -162,12 +167,12 @@ public class RepositoryController {
 			}
 		});
 		th.start();
-		return new ModelAndView("harvest");
+		return new ModelAndView("repositories/harvest");
 	}
 	
 	@RequestMapping("/admin_repositories_del.go")
 	public ModelAndView deleteRepository (HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("repositories");
+		ModelAndView mv = new ModelAndView("repositories/index");
 		mv.addObject("error", false);
 		
 		String id = request.getParameter("id");
@@ -175,6 +180,7 @@ public class RepositoryController {
 			RepositoryManager.delete(RepositoryManager.getByID(id));
 		}
 		mv.addObject("next", nextRun());
+		mv.addObject("harvest", HarvestJob.isRunning());
 		mv.addObject("repositories", RepositoryManager.getRepositories());
 		
 		return mv;
@@ -183,7 +189,7 @@ public class RepositoryController {
 
 	@RequestMapping("/admin_repositories_activate.go")
 	public ModelAndView activateRepository (HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("repositories");
+		ModelAndView mv = new ModelAndView("repositories/index");
 		mv.addObject("error", false);
 		
 		String id = request.getParameter("id");
@@ -202,6 +208,7 @@ public class RepositoryController {
 				mv.addObject("message", "Unable to update repository");
 			}
 		}
+		mv.addObject("harvest", HarvestJob.isRunning());
 		mv.addObject("next", nextRun());
 		mv.addObject("repositories", RepositoryManager.getRepositories());
 		
@@ -210,7 +217,7 @@ public class RepositoryController {
 
 	@RequestMapping("/admin_repositories_deactivate.go")
 	public ModelAndView deactivateRepository (HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("repositories");
+		ModelAndView mv = new ModelAndView("repositories/index");
 		mv.addObject("error", false);
 		
 		String id = request.getParameter("id");
@@ -229,6 +236,7 @@ public class RepositoryController {
 				mv.addObject("message", "Unable to update repository");
 			}
 		}
+		mv.addObject("harvest", HarvestJob.isRunning());
 		mv.addObject("next", nextRun());
 		mv.addObject("repositories", RepositoryManager.getRepositories());
 		
@@ -237,7 +245,7 @@ public class RepositoryController {
 
 	@RequestMapping("/admin_repositories_add_final.go")
 	public ModelAndView addRepositoryFinal (HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("repositories");
+		ModelAndView mv = new ModelAndView("repositories/index");
 		
 		
 		String name = request.getParameter("name");
@@ -252,7 +260,8 @@ public class RepositoryController {
 		r.setName(name);
 		r.setURL(url);
 		r.setSet(set);
-		
+
+		mv.addObject("harvest", HarvestJob.isRunning());
 
 		try {
 			RepositoryManager.create(r);
@@ -260,12 +269,12 @@ public class RepositoryController {
 			mv.addObject("next", nextRun());
 			mv.addObject("repositories", RepositoryManager.getRepositories());
 		} catch (MarshallingException e) {
-			mv.setViewName("addstep1");
+			mv.setViewName("repositories/add");
 			mv.addObject("error", true);
 			mv.addObject("message", "Error while saving repository "+name+". Please try again, if the problem persists contact Lyncode.");
 			log.debug(e.getMessage(), e);
 		} catch (IOException e) {
-			mv.setViewName("addstep1");
+			mv.setViewName("repositories/add");
 			mv.addObject("error", true);
 			mv.addObject("message", "Error while saving repository "+name+". Please try again, if the problem persists contact Lyncode.");
 			log.debug(e.getMessage(), e);

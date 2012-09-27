@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>{% block title %}OAI Proxy{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link type="text/css" href="jquery/css/custom-theme/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
+		<script type="text/javascript" src="jquery/js/jquery-1.8.0.min.js"></script>
+		<script type="text/javascript" src="jquery/js/jquery-ui-1.8.23.custom.min.js"></script>
+	</head>
+	<body>
+		<div id="main_container">
+			<div id="header">
+		    	<div class="logo"></div>       
+		    </div>
+		    <div class="menu">
+		       	<ul>                                                                         
+		       		<li><a href="/index.go">OAI Proxy</a></li>
+					<li><a href="/admin_repositories.go">Administrator</a></li>
+		       	</ul>
+		    	{% if isAdmin %}
+		       	<ul class="right">
+					<li><a href="/j_spring_security_logout">Logout</a></li>
+				</ul>
+		    	{% endif %}
+		    </div>
+		    <div class="center_content">
+			{% block content %}
+			Page without content
+			{% endblock %}
+			</div>
+		    <div id="footer">                                              
+		       <div class="left_footer">
+		       		<a href="http://www.lyncode.com">Lyncode Website</a>
+		       		<a href="http://proxy.oai-pmh.net">OAI Proxy Website</a>
+		       		<a href="mailto:general@lyncode.com">Contact</a></div>
+		       </div>
+		    </div>
+		</div>
+	</body>
+</html>

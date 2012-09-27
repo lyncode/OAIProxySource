@@ -1,0 +1,49 @@
+{% extends '../layout.twig' %}
+{% block content %}
+<script>
+	$(function() {
+		$('#baseurl').focusin(function() {
+			if ($(this).val() == "Set (Blank if none)") {
+				$(this).val("");
+				$(this).css('color', '#333333');
+			}
+		});
+		$('#baseurl').focusout(function() {
+			if ($(this).val() == "") {
+				$(this).val("Set (Blank if none)");
+				$(this).css('color', '#CCCCCC');
+			}
+		});
+		$("#submeter").button();
+	});
+</script>
+<div class="add_repository">
+		{% if error %}
+		<div class="error">
+			{{ message }}
+		</div>
+		{% endif %}
+		
+		<h1 style="text-align: center;">{{ name }}</h1>
+		
+		<form method="post" action="/admin_repositories_add_final.go">
+			<input type="hidden" name="url" value="{{ url }}" />
+			<input type="hidden" name="name" value="{{ name }}" />
+			
+			<div class="field">
+				<div>
+					<input id="baseurl" class="nofocus" type="text" name="set" value="Set (Blank if none)" />
+				</div>
+			</div>
+			<div class="field">
+				<div class="checkbox">
+					<label>Active</label><input id="activecheck" class="checkbox" type="checkbox" name="active" value="ok" />
+				</div>
+			</div>
+			<div class="button">
+				<input type="submit" id="submeter" value="Add Repository : Finish" />
+			</div>
+		</form>
+</div>
+<div class="clear"></div> 
+{% endblock %}
