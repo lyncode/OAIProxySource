@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lyncode.oai.proxy.ProxyApplication;
@@ -30,6 +32,13 @@ import com.lyncode.xoai.serviceprovider.verbs.Identify;
 @Controller
 public class RepositoryController {
 	private static Logger log = LogManager.getLogger(RepositoryController.class);
+	
+
+	@RequestMapping(value="/repository/configure", method = RequestMethod.GET)
+	public String configureRepository (Model model) {
+		
+		return "repository/configure";
+	}
 	
 	private String nextRun () {
 		return ProxyApplication.getTrigger().getNextFireTime().toString();

@@ -1,34 +1,17 @@
 {% extends '../layout.twig' %}
 {% block content %}
-<div class="login">
-	{% if error %}
-		<div class="error">
-			Your login attempt was not successful, try again.<br />
-		</div>
-	{% endif %}
-	
-	<h1>Administrator Login</h1>
-	
-	<form name='f' action="/j_spring_security_check" method='POST'>
-		<table>
-			<tr>
-				<td>User:</td>
-				<td><input type='text' name='j_username' value=''>
-				</td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type='password' name='j_password' />
-				</td>
-			</tr>
-			<tr>
-				<td class="button" colspan='2'><input id="submeter" name="submit" type="submit"
-					value="Login as Administrator" />
-				</td>
-			</tr>
-		</table>
-	</form>
-</div>
-<div class="clear"></div>
-
+			{% if error %}
+				<div class="alert alert-error">
+	              <button type="button" class="close" data-dismiss="alert">×</button>
+	              <strong>Error!</strong> Your login attempt was not successful, try again.
+	            </div>
+			{% endif %}
+			<form class="form-signin" action="{{ path '/j_spring_security_check' }}" method="POST">
+		    	<h2 class="form-signin-heading">Sign in</h2>
+		        <input name="j_username" type="text" class="input-block-level" placeholder="Email address">
+		        <input name="j_password" type="password" class="input-block-level" placeholder="Password">
+		        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+		        <a class="right-to-large-button" href="{{ path '/resetpassword' }}">Lost Password?</a>
+		        <div class="clear"></div>
+		    </form>
 {% endblock %}

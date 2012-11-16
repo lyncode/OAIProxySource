@@ -1,0 +1,23 @@
+{% extends '../layout.twig' %}
+{% block content %}
+	{% if not success %}
+			{% if error %}
+				<div class="alert alert-error">
+			              <button type="button" class="close" data-dismiss="alert">×</button>
+			              <strong>Error!</strong> {{ error }}
+			    </div>
+			{% endif %}
+			<form class="form-signin" action="{{ path '/register' }}" method="POST">
+		        <h2 class="form-signin-heading">Register</h2>
+		        <input name="email" type="text" value="{{ email }}" class="input-block-level" placeholder="Email address">
+		        <input name="pwd" type="password" class="input-block-level" placeholder="Password">
+		        <input name="pwda" type="password" class="input-block-level" placeholder="Password Again">
+		        <button class="btn btn-large btn-success" type="submit">Register</button>
+		    </form>
+	{% else %}
+	    <div class="alert alert-info">
+			<h4>Account Registered!</h4>
+			The account is now registered, you can start using it now. <a href="{{ path '/login' }}">Login</a>    		
+    	</div>
+	{% endif %}
+{% endblock %}

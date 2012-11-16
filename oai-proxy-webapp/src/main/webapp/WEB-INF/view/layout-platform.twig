@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>{% block title %}OAInfoGraphic{% endblock %}</title>
+		<!-- CSS -->
+		<link type="text/css" href="{{ path 'extras/jquery/css/custom-theme/jquery-ui-1.8.23.custom.css' }}" rel="stylesheet" />
+		<link href="{{ path 'extras/bootstrap/css/bootstrap.min.css' }}" rel="stylesheet" media="screen">
+		<link href="{{ path 'extras/bootstrap/css/bootstrap-responsive.min.css' }}" rel="stylesheet" media="screen">
+		<link rel="stylesheet" type="text/css" href="{{ path 'css/style.css' }}" />
+		
+		<style type="text/css">
+	      body {
+	        padding-top: 60px;
+	        padding-bottom: 40px;
+	      }
+	      .sidebar-nav {
+	        padding: 9px 0;
+	      }
+	    </style>
+		
+		<!-- Scripting -->
+		<script type="text/javascript" src="{{ path 'extras/jquery/js/jquery-1.8.0.min.js' }}"></script>
+		<script type="text/javascript" src="{{ path 'extras/jquery/js/jquery-ui-1.8.23.custom.min.js' }}"></script>
+		<script type="text/javascript" src="{{ path 'extras/bootstrap/js/bootstrap.min.js' }}"></script>
+	</head>
+	<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand">OAInfoGraphic</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+              Enjoy your stats!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Menu</li>
+		          {% if equals "/member/index" request.uri %}
+		          <li class="active"><a href="{{ path '/member/index' }}">Dashboard</a></li>
+		          {% else %}
+		          <li><a href="{{ path '/member/index' }}">Dashboard</a></li>
+		          {% endif %}
+		          {% if equals "/repository/configure" request.uri %}
+		          <li class="active"><a href="{{ path '/repository/configure' }}">Repository</a></li>
+		          {% else %}
+		          <li><a href="{{ path '/repository/configure' }}">Repository</a></li>
+		          {% endif %}
+		          {% if equals "/stats" request.uri %}
+		          <li class="active"><a href="{{ path '/stats' }}">InfoGraphic</a></li>
+		          {% else %}
+		          <li><a href="{{ path '/stats' }}">InfoGraphic</a></li>
+		          {% endif %}
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        
+        <div class="span9">
+         	{% block content %}
+			Page without content
+			{% endblock %}
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p class="muted credit">Created by <a href="http://www.lyncode.com">Lyncode</a> &copy; 2012</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+  </body>
+</html>

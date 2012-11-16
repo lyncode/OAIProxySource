@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class IndexController {
 	
-	@RequestMapping(value="/index.go")
+	@RequestMapping(value="/")
 	public ModelAndView indexAction (HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index/index");
 		String url = request.getRequestURL().toString().replaceFirst(request.getRequestURI(),"") + "/oai/request";

@@ -10,9 +10,15 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
  	
-	<context:component-scan base-package="com.lyncode.oai.proxy.web.controller" />
+	<context:component-scan base-package="com.lyncode.oai.proxy.web.controller, com.lyncode.oai.proxy.model" />
 	
  	<mvc:annotation-driven />
+ 	
+ 	<bean id="theme" class="com.lyncode.jtwig.mvc.Theme">
+ 		<property name="theme">
+ 			<value></value>
+ 		</property>
+ 	</bean>
 
 	
     <bean id="viewResolver" class="com.lyncode.jtwig.mvc.JtwigViewResolver">
@@ -21,7 +27,11 @@
         </property>
         <property name="suffix">
             <value>.twig</value>
-        </property> 
+        </property>
+        <property name="cached">
+        	<value>false</value>
+        </property>
     </bean>
- 
+	
+ 	<import resource="database-configuration.xml"/>
 </beans>

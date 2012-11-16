@@ -34,6 +34,11 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>FileSevlet</servlet-name>
+		<servlet-class>com.lyncode.oai.proxy.web.servlet.FileServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>ProxyDataProvider</servlet-name>
@@ -41,8 +46,17 @@
 	</servlet-mapping>
 	
 	<servlet-mapping>
+		<servlet-name>FileSevlet</servlet-name>
+		<url-pattern>/images/*</url-pattern>
+		<url-pattern>/js/*</url-pattern>
+		<url-pattern>/css/*</url-pattern>
+		<url-pattern>/extras/*</url-pattern>
+		<url-pattern>/stylesheet.xsl</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
 		<servlet-name>ProxyDispatcherServlet</servlet-name>
-		<url-pattern>*.go</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
 	<filter>
