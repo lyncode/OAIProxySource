@@ -1,0 +1,26 @@
+{% extends '../../layout-platform.twig' %}
+{% block content %}
+<div class="hero-unit">
+	<form class="form-horizontal" method="POST" action="{{ path '/repository/add/step3' }}">
+		{% if invalidname %}
+		<div class="control-group error">
+		{% else %}
+		<div class="control-group">
+		{% endif %}
+		  <label class="control-label" for="inputWarning">Repository Name</label>
+		  <div class="controls">
+		    <input name="name" type="text" id="inputWarning" value="{{ identify.repositoryName }}">
+		    {% if invalidname %}
+		    <span class="help-inline">The repository name was invalid</span>
+		    {% endif %}
+		  </div>
+		</div>
+		<div class="control-group">
+		    <div class="controls">
+		      <button name="button" type="submit" class="btn btn-primary">Save</button>
+		      <button name="button" type="submit" class="btn">Cancel</button>
+		    </div>
+		</div>
+	</form>
+</div>
+{% endblock %}

@@ -19,6 +19,7 @@ import com.lyncode.oai.proxy.core.RepositoryManager;
 import com.lyncode.oai.proxy.harvest.ProxyHarvester;
 import com.lyncode.oai.proxy.job.HarvestJob;
 import com.lyncode.oai.proxy.util.DateUtils;
+import com.lyncode.oai.proxy.util.PatternUtils;
 import com.lyncode.oai.proxy.xml.repository.Repository;
 import com.lyncode.xoai.dataprovider.exceptions.MarshallingException;
 import com.lyncode.xoai.serviceprovider.HarvesterManager;
@@ -34,10 +35,43 @@ public class RepositoryController {
 	private static Logger log = LogManager.getLogger(RepositoryController.class);
 	
 
-	@RequestMapping(value="/repository/configure", method = RequestMethod.GET)
-	public String configureRepository (Model model) {
+	@RequestMapping(value="/repository/add", method = RequestMethod.GET)
+	public String addRepositoryStep1 (Model model) {
 		
-		return "repository/configure";
+		return "repository/add/step1";
+	}
+
+	@RequestMapping(value="/repository/add/step2", method = RequestMethod.POST)
+	public String addRepositoryStep2 (HttpServletRequest request, Model model) {
+		String url = request.getParameter("url").trim();
+		model.addAttribute("url", url);
+		if (!url.startsWith("http://"))
+			url = "http://" + url;
+		
+		if (PatternUtils.validHttpURI(url)) {
+			// Harvester Configuration
+			Configuration configuration = new Configuration();
+			configuration.setResumptionInterval(ConfigurationManager.getConfiguration().getInt("oai.proxy.interval", 0));
+			
+			// Harvester Manager
+			HarvesterManager manager = new HarvesterManager(configuration, url);
+			
+			// Identify it!
+			try {
+				Identify identify = manager.identify();
+				model.addAttribute("identify", identify);
+				return "repository/add/step2";
+			} catch (InternalHarvestException e) {
+				log.debug(e.getMessage(), e);
+				model.addAttribute("error", "The URL given do not behave as an OAI-PMH interface, please provide a valid URL.");
+			} catch (BadArgumentException e) {
+				log.error(e.getMessage(), e);
+				model.addAttribute("error", "Something went wrong, please try again. If the problem persists, please contact the administrators. Thanks");
+			}
+		} else
+			model.addAttribute("error", "The URL given isn't valid");
+
+		return "repository/add/step1";
 	}
 	
 	private String nextRun () {

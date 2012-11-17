@@ -27,12 +27,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
-import com.lyncode.oai.proxy.core.ConfigurationManager;
 import com.lyncode.oai.proxy.data.ProxyIdentify;
 import com.lyncode.oai.proxy.data.ProxyItemRepository;
 import com.lyncode.oai.proxy.data.ProxySetRepository;

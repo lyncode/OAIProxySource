@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lyncode.oai.proxy.model.dao.api.UserDao;
 import com.lyncode.oai.proxy.model.entity.User;
 
+@SuppressWarnings("deprecation")
 public class UserAuthenticationService implements UserDetailsService {
 	@Autowired private UserDao dao;
 

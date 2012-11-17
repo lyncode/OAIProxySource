@@ -10,3 +10,6 @@
 .classpath
 
 target
+
+proxy.log
+proxy.log*

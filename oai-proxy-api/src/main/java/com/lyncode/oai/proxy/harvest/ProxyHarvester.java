@@ -92,6 +92,7 @@ public class ProxyHarvester {
 						doc.addField(ProxyItem.REPOSITORY_ID, repository.getID());
 						
 						if (r.getMetadata() != null) {
+							@SuppressWarnings("unchecked")
 							JAXBElement<OaiDcType> metadata = (JAXBElement<OaiDcType>) XMLBindUtils.unmarshal(OaiDcType.class, r.getMetadata().getMetadata());
 							
 							for (JAXBElement<ElementType> e : metadata.getValue().getTitleOrCreatorOrSubject()) {

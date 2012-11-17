@@ -49,16 +49,16 @@
         <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              <li class="nav-header">Menu</li>
+              <li class="nav-header">My Area</li>
 		          {% if equals "/member/index" request.uri %}
 		          <li class="active"><a href="{{ path '/member/index' }}">Dashboard</a></li>
 		          {% else %}
 		          <li><a href="{{ path '/member/index' }}">Dashboard</a></li>
 		          {% endif %}
-		          {% if equals "/repository/configure" request.uri %}
-		          <li class="active"><a href="{{ path '/repository/configure' }}">Repository</a></li>
+		          {% if equals "/repository/add" request.uri %}
+		          <li class="active"><a href="{{ path '/repository/add' }}">Add Repository</a></li>
 		          {% else %}
-		          <li><a href="{{ path '/repository/configure' }}">Repository</a></li>
+		          <li><a href="{{ path '/repository/add' }}">Add Repository</a></li>
 		          {% endif %}
 		          {% if equals "/stats" request.uri %}
 		          <li class="active"><a href="{{ path '/stats' }}">InfoGraphic</a></li>

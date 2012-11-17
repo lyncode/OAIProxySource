@@ -85,6 +85,7 @@ public class MemberController {
 					user.setActivationKey(userRepository.generateActivationKey());
 					userRepository.saveUser(user);
 					model.put("success", true);
+					log.debug("User successfully registered");
 				}
 			}
 		}

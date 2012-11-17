@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.lyncode.oai.proxy.util.CryptoUtils;
-
 @Entity
 @Table(name="users")
 public class User implements Serializable {
