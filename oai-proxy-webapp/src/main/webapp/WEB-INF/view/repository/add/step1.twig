@@ -6,6 +6,12 @@
 	Your repository isn't configured yet, you need to provide information about it's OAI-PMH interface.
 </div>
 <div class="hero-unit">
+	{% if error %}
+	<div class="alert alert-error">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+		<strong>Error</strong> {{ error }}
+	</div>
+	{% endif %}
 	<form method="POST" action="{{ path '/repository/add/step2' }}">
 		<div class="control-group">
 		  <div class="controls">

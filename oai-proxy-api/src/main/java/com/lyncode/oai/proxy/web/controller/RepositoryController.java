@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,9 @@ import com.lyncode.oai.proxy.core.ConfigurationManager;
 import com.lyncode.oai.proxy.core.RepositoryManager;
 import com.lyncode.oai.proxy.harvest.ProxyHarvester;
 import com.lyncode.oai.proxy.job.HarvestJob;
+import com.lyncode.oai.proxy.model.dao.api.RepositoryDao;
+import com.lyncode.oai.proxy.model.dao.api.UserDao;
+import com.lyncode.oai.proxy.model.entity.User;
 import com.lyncode.oai.proxy.util.DateUtils;
 import com.lyncode.oai.proxy.util.PatternUtils;
 import com.lyncode.oai.proxy.xml.repository.Repository;
@@ -34,6 +40,8 @@ import com.lyncode.xoai.serviceprovider.verbs.Identify;
 public class RepositoryController {
 	private static Logger log = LogManager.getLogger(RepositoryController.class);
 	
+	@Autowired RepositoryDao repository;
+	@Autowired UserDao users;
 
 	@RequestMapping(value="/repository/add", method = RequestMethod.GET)
 	public String addRepositoryStep1 (Model model) {
@@ -59,6 +67,7 @@ public class RepositoryController {
 			// Identify it!
 			try {
 				Identify identify = manager.identify();
+				model.addAttribute("url", url);
 				model.addAttribute("identify", identify);
 				return "repository/add/step2";
 			} catch (InternalHarvestException e) {
@@ -72,6 +81,32 @@ public class RepositoryController {
 			model.addAttribute("error", "The URL given isn't valid");
 
 		return "repository/add/step1";
+	}
+	
+	@RequestMapping(value="/repository/add/step3", method = RequestMethod.POST)
+	public String addRepositoryStep3 (HttpServletRequest request, Model model) {
+		String button = request.getParameter("button");
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String email = auth.getName();
+		
+		if ("save".equals(button)) {
+			String name = request.getParameter("name");
+			String url = request.getParameter("url");
+			com.lyncode.oai.proxy.model.entity.Repository rep = new com.lyncode.oai.proxy.model.entity.Repository();
+			rep.setName(name);
+			rep.setUrl(url);
+			int id = 0;
+			User u = users.selectUserByEmail(email);
+			if (u != null) id = u.getId();
+			rep.setUserId(id);
+			repository.saveRepository(rep);
+			model.addAttribute("name", name);
+			model.addAttribute("url", url);
+			return "repository/add/step3";
+		} else {
+			return "repository/add/step1";
+		}
 	}
 	
 	private String nextRun () {

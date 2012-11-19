@@ -71,7 +71,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<User> getAllUser(User user) {
+	public List<User> getAllUser() {
 		return (List<User>) getSession().createCriteria(User.class).list();
 	}
 

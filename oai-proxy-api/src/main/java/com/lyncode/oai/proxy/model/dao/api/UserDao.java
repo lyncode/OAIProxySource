@@ -6,7 +6,7 @@ import com.lyncode.oai.proxy.model.entity.User;
 
 public interface UserDao {
 	public int saveUser(User user);
-	public List<User> getAllUser(User user);
+	public List<User> getAllUser();
 	public User selectUserById(int userId);
 	public User selectUserByEmail(String email);
 	public User selectUserByActivationKey(String key);

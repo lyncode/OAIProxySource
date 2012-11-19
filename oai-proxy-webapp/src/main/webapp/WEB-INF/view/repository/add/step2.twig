@@ -2,6 +2,7 @@
 {% block content %}
 <div class="hero-unit">
 	<form class="form-horizontal" method="POST" action="{{ path '/repository/add/step3' }}">
+		<input type="hidden" name="url" value="{{ url }}" />
 		{% if invalidname %}
 		<div class="control-group error">
 		{% else %}
@@ -17,8 +18,8 @@
 		</div>
 		<div class="control-group">
 		    <div class="controls">
-		      <button name="button" type="submit" class="btn btn-primary">Save</button>
-		      <button name="button" type="submit" class="btn">Cancel</button>
+		      <button name="button" type="submit" value="save" class="btn btn-primary">Save</button>
+		      <button name="button" type="submit" value="cancel" class="btn">Cancel</button>
 		    </div>
 		</div>
 	</form>
